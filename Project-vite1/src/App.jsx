@@ -1,44 +1,67 @@
 /** @format */
 
-import Navbar from "./components/Navbar";
 import Profil from "./components/Profil";
-import Hero from "./components/Hero";
-import Card from "./components/Card";
-import { Detail, Footer } from "./components/Footer";
+import { Button } from "./components/ui/button";
 
-const profiles = [
-  {
-    name: "Altaf",
-    job: "Santri",
-  },
-  {
-    name: "Zhafran",
-    job: "Frontend Developer",
-  },
-  {
-    name: "Fawwaz",
-    job: "UI Designer",
-  },
+const students = [
+  // {
+  //   id: 1,
+  //   name: "Altaf",
+  //   job: "Santri",
+  // },
+  // {
+  //   id: 2,
+  //   name: "Zhafran",
+  //   job: "Frontend Developer",
+  // },
+  // {
+  //   id: 3,
+  //   name: "Fawwaz",
+  //   job: "UI Designer",
+  // },
+  // {
+  //   id: 4,
+  //   name: "Ahmad",
+  //   job: "Backend Developer",
+  // },
+  // {
+  //   id: 5,
+  //   name: "Rizky",
+  //   job: "UI Designer",
+  // },
+  // {
+  //   id: 6,
+  //   name: "Faris",
+  //   job: "Frontend Developer",
+  // },
 ];
 
-// App adalah komponen utama
 export default function App() {
+  let content;
+
+  if (students.length === 0) {
+    content = (
+      <div className='px-4 py-6 text-center text-gray-600'>
+        Data ini belum tersedia
+      </div>
+    );
+  } else if (students.length > 5) {
+    content = (
+      <div className='px-4 py-6 text-center text-red-600'>
+        Data tidak bisa ditampilkan karena terlalu banyak
+      </div>
+    );
+  } else {
+    content = students.map((student) => (
+      <Profil key={student.id} name={student.name} job={student.job} />
+    ));
+  }
+
   return (
-    <div className='min-h-screen bg-gray-100'>
-      <Navbar />
+    <div className='min-h-screen bg-gray-100 p-8'>
+      {content}
 
-      {profiles.map((profile, index) => (
-        <Profil key={index} name={profile.name} job={profile.job} />
-      ))}
-
-      <Hero />
-
-      <main className='py-8'>
-        <Card />
-      </main>
-
-      <Detail />
-      <Footer />
+      <Button className='mt-4'>Klik Saya</Button>
     </div>
   );
 }
