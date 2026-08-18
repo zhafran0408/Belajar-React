@@ -3,8 +3,8 @@
 import React, { useRef } from "react";
 
 function Basic() {
-  const inputRef = useRef(null); // Membuat sebuah referensi
-// ?
+  const inputRef = useRef(null); // Membuat sebuah refe
+
   function fokusInput() {
     inputRef.current.focus();
   }
