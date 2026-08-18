@@ -1,7 +1,12 @@
 /** @format */
 
+import { useState } from "react";
+
 import Profil from "./components/Profil";
 import { Button } from "./components/ui/button";
+
+import AppUseState from "./AppUseState";
+import AppUseRef from "./AppUseRef";
 
 const students = [
   // {
@@ -37,6 +42,38 @@ const students = [
 ];
 
 export default function App() {
+  const [page, setPage] = useState("home");
+
+  // =========================
+  // HALAMAN USESTATE
+  // =========================
+  if (page === "useState") {
+    return (
+      <div>
+        <Button onClick={() => setPage("home")}>Kembali ke App</Button>
+
+        <AppUseState />
+      </div>
+    );
+  }
+
+  // =========================
+  // HALAMAN USEREF
+  // =========================
+  if (page === "useRef") {
+    return (
+      <div>
+        <Button onClick={() => setPage("home")}>Kembali ke App</Button>
+
+        <AppUseRef />
+      </div>
+    );
+  }
+
+  // =========================
+  // KODE APP LAMA
+  // =========================
+
   let content;
 
   if (students.length === 0) {
@@ -59,6 +96,14 @@ export default function App() {
 
   return (
     <div className='min-h-screen bg-gray-100 p-8'>
+      <div className='mb-6 flex gap-3'>
+        <Button onClick={() => setPage("home")}>App</Button>
+
+        <Button onClick={() => setPage("useState")}>useState</Button>
+
+        <Button onClick={() => setPage("useRef")}>useRef</Button>
+      </div>
+
       {content}
 
       <Button className='mt-4'>Klik Saya</Button>

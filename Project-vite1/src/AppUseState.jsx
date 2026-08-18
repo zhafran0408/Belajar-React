@@ -3,6 +3,7 @@
 import Basic from "./UseState/Basic.jsx";
 import SaveData from "./UseState/SaveData.jsx";
 import Practice from "./UseState/Practice.jsx";
+import Practice2 from "./UseState/Practice2.jsx";
 
 function AppUseState() {
   return (
@@ -15,6 +16,7 @@ function AppUseState() {
 
       <SaveData />
       <Practice/>
+      <Practice2/>
     </>
   );
 }
