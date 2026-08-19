@@ -2,57 +2,44 @@
 
 import { useState } from "react";
 
-import Profil from "./components/Profil";
 import { Button } from "./components/ui/button";
 
+import Profil from "./components/Profil";
 import AppUseState from "./AppUseState";
 import AppUseRef from "./AppUseRef";
 
-const students = [
-  // {
-  //   id: 1,
-  //   name: "Altaf",
-  //   job: "Santri",
-  // },
-  // {
-  //   id: 2,
-  //   name: "Zhafran",
-  //   job: "Frontend Developer",
-  // },
-  // {
-  //   id: 3,
-  //   name: "Fawwaz",
-  //   job: "UI Designer",
-  // },
-  // {
-  //   id: 4,
-  //   name: "Ahmad",
-  //   job: "Backend Developer",
-  // },
-  // {
-  //   id: 5,
-  //   name: "Rizky",
-  //   job: "UI Designer",
-  // },
-  // {
-  //   id: 6,
-  //   name: "Faris",
-  //   job: "Frontend Developer",
-  // },
-];
+// Pastikan nama folder ('Form' vs 'form') & nama file persis sama dengan yang ada di VS Code
+import LoginForm from "./Form/Loginform";
+import LoginFormWithUseReff from "./Form/LoginFormWithUseReff";
+import LoginFormControlled from "./Form/LoginFormControlled";
 
 export default function App() {
   const [page, setPage] = useState("home");
+
+  // =========================
+  // HALAMAN PROFIL
+  // =========================
+  if (page === "profil") {
+    return (
+      <div className="min-h-screen bg-gray-100 p-5">
+        <Button onClick={() => setPage("home")}>Kembali</Button>
+        <div className="mt-4">
+          <Profil />
+        </div>
+      </div>
+    );
+  }
 
   // =========================
   // HALAMAN USESTATE
   // =========================
   if (page === "useState") {
     return (
-      <div>
-        <Button onClick={() => setPage("home")}>Kembali ke App</Button>
-
-        <AppUseState />
+      <div className="min-h-screen bg-gray-100 p-5">
+        <Button onClick={() => setPage("home")}>Kembali</Button>
+        <div className="mt-4">
+          <AppUseState />
+        </div>
       </div>
     );
   }
@@ -62,51 +49,74 @@ export default function App() {
   // =========================
   if (page === "useRef") {
     return (
-      <div>
-        <Button onClick={() => setPage("home")}>Kembali ke App</Button>
-
-        <AppUseRef />
+      <div className="min-h-screen bg-gray-100 p-5">
+        <Button onClick={() => setPage("home")}>Kembali</Button>
+        <div className="mt-4">
+          <AppUseRef />
+        </div>
       </div>
     );
   }
 
   // =========================
-  // KODE APP LAMA
+  // HALAMAN LOGIN FORM
   // =========================
-
-  let content;
-
-  if (students.length === 0) {
-    content = (
-      <div className='px-4 py-6 text-center text-gray-600'>
-        Data ini belum tersedia
+  if (page === "login") {
+    return (
+      <div className="min-h-screen bg-gray-100 p-5">
+        <Button onClick={() => setPage("home")}>Kembali</Button>
+        <div className="mt-4">
+          <LoginForm />
+        </div>
       </div>
     );
-  } else if (students.length > 5) {
-    content = (
-      <div className='px-4 py-6 text-center text-red-600'>
-        Data tidak bisa ditampilkan karena terlalu banyak
-      </div>
-    );
-  } else {
-    content = students.map((student) => (
-      <Profil key={student.id} name={student.name} job={student.job} />
-    ));
   }
 
+  // =========================
+  // HALAMAN LOGIN + USEREF
+  // =========================
+  if (page === "loginUseReff") {
+    return (
+      <div className="min-h-screen bg-gray-100 p-5">
+        <Button onClick={() => setPage("home")}>Kembali</Button>
+        <div className="mt-4">
+          <LoginFormWithUseReff />
+        </div>
+      </div>
+    );
+  }
+
+  // =========================
+  // HALAMAN LOGIN CONTROLLED
+  // =========================
+  if (page === "loginControlled") {
+    return (
+      <div className="min-h-screen bg-gray-100 p-5">
+        <Button onClick={() => setPage("home")}>Kembali</Button>
+        <div className="mt-4">
+          <LoginFormControlled />
+        </div>
+      </div>
+    );
+  }
+
+  // =========================
+  // HALAMAN UTAMA (HOME)
+  // =========================
   return (
-    <div className='min-h-screen bg-gray-100 p-8'>
-      <div className='mb-6 flex gap-3'>
-        <Button onClick={() => setPage("home")}>App</Button>
+    <div className="min-h-screen bg-gray-100 p-5">
+      <h1 className="mb-5 text-2xl font-bold">Latihan React</h1>
 
+      <div className="flex flex-wrap gap-2">
+        <Button onClick={() => setPage("profil")}>Profil</Button>
         <Button onClick={() => setPage("useState")}>useState</Button>
-
         <Button onClick={() => setPage("useRef")}>useRef</Button>
+        <Button onClick={() => setPage("login")}>Login Form</Button>
+        <Button onClick={() => setPage("loginUseReff")}>Login + useRef</Button>
+        <Button onClick={() => setPage("loginControlled")}>
+          Login Controlled
+        </Button>
       </div>
-
-      {content}
-
-      <Button className='mt-4'>Klik Saya</Button>
     </div>
   );
 }
