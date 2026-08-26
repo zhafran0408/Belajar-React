@@ -1,42 +1,85 @@
 /** @format */
 
 import { useState } from "react";
+
 import { Button } from "./components/ui/button";
 
 import Profil from "./components/Profil";
+
 import AppUseState from "./AppUseState";
+
 import AppUseRef from "./AppUseRef";
+
 import LoginForm from "./Form/Loginform";
+
 import LoginFormWithUseReff from "./Form/LoginFormWithUseReff";
+
 import LoginFormControlled from "./Form/LoginFormControlled";
+
 import RadixTest from "./headless_ui_component.md/Radixtest";
 
-// 1. Mapping halaman ke dalam objek
+import SimpleCounter from "./UseEffect/SimpleCounter";
+
+// =========================
+// DAFTAR HALAMAN
+// =========================
+
 const PAGES = {
-  profil: { label: "Profil", component: () => <Profil /> },
-  useState: { label: "useState", component: () => <AppUseState /> },
-  useRef: { label: "useRef", component: () => <AppUseRef /> },
-  login: { label: "Login Form", component: () => <LoginForm /> },
+  profil: {
+    label: "Profil",
+    component: () => <Profil />,
+  },
+
+  useState: {
+    label: "useState",
+    component: () => <AppUseState />,
+  },
+
+  useRef: {
+    label: "useRef",
+    component: () => <AppUseRef />,
+  },
+
+  login: {
+    label: "Login Form",
+    component: () => <LoginForm />,
+  },
+
   loginUseReff: {
     label: "Login + useRef",
     component: () => <LoginFormWithUseReff />,
   },
+
   loginControlled: {
     label: "Login Controlled",
     component: () => <LoginFormControlled />,
   },
-  // Kirimkan fungsi setPage ke prop onBack milik RadixTest
+
+  useEffect: {
+    label: "useEffect",
+    component: () => <SimpleCounter />,
+  },
+
   radix: {
     label: "Radix UI",
+
     component: (setPage) => <RadixTest onBack={() => setPage("home")} />,
+
     standalone: true,
   },
 };
 
 export default function App() {
+  // =========================
+  // STATE UNTUK PINDAH HALAMAN
+  // =========================
+
   const [page, setPage] = useState("home");
 
-  // 2. Jika di Halaman Utama (Home)
+  // =========================
+  // HALAMAN HOME
+  // =========================
+
   if (page === "home") {
     return (
       <div className='min-h-screen bg-gray-100 p-5'>
@@ -53,20 +96,33 @@ export default function App() {
     );
   }
 
+  // =========================
+  // AMBIL HALAMAN YANG DIPILIH
+  // =========================
+
   const currentPage = PAGES[page];
 
-  // Fallback jika key page tidak valid
-  if (!currentPage) return null;
+  // Jika halaman tidak ditemukan
+  if (!currentPage) {
+    return null;
+  }
 
-  // 3. Render khusus jika komponen standalone
+  // =========================
+  // HALAMAN STANDALONE
+  // =========================
+
   if (currentPage.standalone) {
     return currentPage.component(setPage);
   }
 
-  // 4. Wrapper Reusable untuk seluruh sub-halaman
+  // =========================
+  // HALAMAN BIASA
+  // =========================
+
   return (
     <div className='min-h-screen bg-gray-100 p-5'>
       <Button onClick={() => setPage("home")}>Kembali</Button>
+
       <div className='mt-4'>{currentPage.component(setPage)}</div>
     </div>
   );
