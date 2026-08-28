@@ -5,15 +5,11 @@ import { useState } from "react";
 import { Button } from "./components/ui/button";
 
 import Profil from "./components/Profil";
-
 import AppUseState from "./AppUseState";
-
 import AppUseRef from "./AppUseRef";
 
 import LoginForm from "./Form/Loginform";
-
 import LoginFormWithUseReff from "./Form/LoginFormWithUseReff";
-
 import LoginFormControlled from "./Form/LoginFormControlled";
 
 import RadixTest from "./headless_ui_component.md/Radixtest";
@@ -62,18 +58,15 @@ const PAGES = {
 
   radix: {
     label: "Radix UI",
-
-    component: (setPage) => <RadixTest onBack={() => setPage("home")} />,
-
-    standalone: true,
+    component: () => <RadixTest />,
   },
 };
 
-export default function App() {
-  // =========================
-  // STATE UNTUK PINDAH HALAMAN
-  // =========================
+// =========================
+// APP
+// =========================
 
+export default function App() {
   const [page, setPage] = useState("home");
 
   // =========================
@@ -83,12 +76,16 @@ export default function App() {
   if (page === "home") {
     return (
       <div className='min-h-screen bg-gray-100 p-5'>
-        <h1 className='mb-5 text-2xl font-bold'>Latihan React</h1>
+        <h1 className='mb-5 text-2xl font-bold'>
+          Latihan React
+        </h1>
 
         <div className='flex flex-wrap gap-2'>
-          {Object.entries(PAGES).map(([key, { label }]) => (
-            <Button key={key} onClick={() => setPage(key)}>
-              {label}
+          {Object.entries(PAGES).map(([key, value]) => (
+            <Button
+              key={key}
+              onClick={() => setPage(key)}>
+              {value.label}
             </Button>
           ))}
         </div>
@@ -97,33 +94,30 @@ export default function App() {
   }
 
   // =========================
-  // AMBIL HALAMAN YANG DIPILIH
+  // AMBIL HALAMAN
   // =========================
 
   const currentPage = PAGES[page];
 
-  // Jika halaman tidak ditemukan
   if (!currentPage) {
     return null;
   }
 
   // =========================
-  // HALAMAN STANDALONE
-  // =========================
-
-  if (currentPage.standalone) {
-    return currentPage.component(setPage);
-  }
-
-  // =========================
-  // HALAMAN BIASA
+  // HALAMAN YANG DIPILIH
   // =========================
 
   return (
     <div className='min-h-screen bg-gray-100 p-5'>
-      <Button onClick={() => setPage("home")}>Kembali</Button>
+      {/* Tombol kembali */}
+      <Button
+        className='mb-4'
+        onClick={() => setPage("home")}>
+        Kembali ke Home
+      </Button>
 
-      <div className='mt-4'>{currentPage.component(setPage)}</div>
+      {/* Konten halaman */}
+      <div>{currentPage.component()}</div>
     </div>
   );
 }
