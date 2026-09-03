@@ -1,104 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Mail, Briefcase, Loader2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, UserRound } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 
-const USERS_DATA = {
-  Zhafran: {
-    nama: 'Zhafran Atha Razin Hadiny',
-    role: 'Frontend Engineer',
-    email: 'zhafran@example.com',
-    bio: 'Fokus mendalami React Router v6 dan animasi UI.',
+const users = {
+  1: {
+    name: "Zhafran",
+    role: "React Learner",
+    description: "Sedang mempelajari React dari fundamental sampai Context API.",
   },
-  Calya: {
-    nama: 'Calya Salsabilla Putri',
-    role: 'UI/UX Designer',
-    email: 'csputri@example.com',
-    bio: 'Suka membuat mockup antarmuka yang bersih dan responsif.',
-  },
-  ali: {
-    nama: 'Ali Bin Abi',
-    role: 'Backend Developer',
-    email: 'ali@example.com',
-    bio: 'Menyukai arsitektur database dan RESTful API.',
+  2: {
+    name: "Frontend Student",
+    role: "Developer",
+    description: "Belajar membuat interface menggunakan React dan Tailwind.",
   },
 };
 
-export default function UserDetail() {
+function UserDetail() {
   const { id } = useParams();
 
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-
-    const timer = setTimeout(() => {
-      const foundUser = USERS_DATA[id?.toLowerCase()];
-      setUser(foundUser || null);
-      setLoading(false);
-    }, 300);
-
-    return () => clearTimeout(timer);
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center text-indigo-600 gap-2">
-        <Loader2 className="w-8 h-8 animate-spin" />
-        <p className="text-sm font-medium text-slate-600">Memuat data user...</p>
-      </div>
-    );
-  }
+  const user = users[id];
 
   if (!user) {
     return (
-      <div className="max-w-md mx-auto p-4 py-12 text-center">
-        <div className="p-3 bg-red-100 text-red-600 rounded-full w-fit mx-auto mb-3">
-          <AlertCircle className="w-8 h-8" />
-        </div>
-        <h2 className="text-xl font-bold text-slate-800">User Tidak Ditemukan</h2>
-        <p className="text-slate-500 text-sm mt-1 mb-6">
-          Tidak ada data untuk ID: <span className="font-mono font-bold text-slate-700">{id}</span>
-        </p>
-        <Link to="/profil" className="text-indigo-600 font-medium hover:underline text-sm">
-          ← Kembali ke Profil
+      <div className="rounded-2xl border border-white/10 bg-white/[0.025] p-10 text-center">
+        <h1 className="text-xl font-bold">User tidak ditemukan</h1>
+
+        <Link
+          to="/profil"
+          className="mt-5 inline-flex items-center gap-2 text-sm text-violet-400"
+        >
+          <ArrowLeft size={16} />
+          Kembali
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="max-w-md mx-auto p-4 py-12">
-      <Link 
-        to="/profil" 
-        className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:underline mb-4"
+    <div className="mx-auto max-w-2xl">
+      <Link
+        to="/profil"
+        className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-500 transition hover:text-white"
       >
-        <ArrowLeft className="w-4 h-4" /> Kembali ke Profil
+        <ArrowLeft size={16} />
+        Kembali ke Profil
       </Link>
 
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-        <div className="flex items-center gap-4 border-b border-slate-100 pb-4 mb-4">
-          <div className="w-14 h-14 bg-gradient-to-tr from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center font-bold text-xl shadow-sm">
-            {user.nama.charAt(0)}
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-800">{user.nama}</h1>
-            <p className="text-sm text-indigo-600 flex items-center gap-1 font-medium">
-              <Briefcase className="w-3.5 h-3.5" />
-              {user.role}
-            </p>
-          </div>
+      <div className="rounded-3xl border border-white/10 bg-white/[0.025] p-8">
+        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-400">
+          <UserRound size={28} />
         </div>
 
-        <p className="text-sm text-slate-600 leading-relaxed mb-4">
-          {user.bio}
-        </p>
+        <p className="mt-6 text-sm text-violet-400">{user.role}</p>
 
-        <div className="pt-3 border-t border-slate-100 flex items-center gap-2 text-sm text-slate-500">
-          <Mail className="w-4 h-4 text-slate-400" />
-          <span>{user.email}</span>
+        <h1 className="mt-1 text-3xl font-bold">{user.name}</h1>
+
+        <p className="mt-4 leading-7 text-zinc-500">{user.description}</p>
+
+        <div className="mt-8 rounded-xl border border-white/10 bg-black/20 p-4">
+          <p className="text-xs text-zinc-600">Dynamic Route ID</p>
+          <p className="mt-1 font-mono text-sm text-violet-300">{id}</p>
         </div>
       </div>
     </div>
   );
 }
+
+export default UserDetail;

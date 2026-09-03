@@ -1,27 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { AlertTriangle, Home } from 'lucide-react';
+import { ArrowLeft, SearchX } from "lucide-react";
+import { Link } from "react-router-dom";
 
-export default function NotFound() {
+function NotFound() {
   return (
-    <div className="min-h-[80vh] flex flex-col items-center justify-center p-4 text-center">
-      <div className="p-4 bg-amber-50 rounded-full text-amber-500 mb-4">
-        <AlertTriangle className="w-16 h-16" />
-      </div>
-      
-      <h1 className="text-6xl font-extrabold text-slate-900 mb-2">404</h1>
-      <h2 className="text-xl font-bold text-slate-800 mb-2">Halaman Tidak Ditemukan</h2>
-      <p className="text-slate-600 max-w-sm mb-6">
-        Maaf, halaman yang kamu cari tidak ada atau sudah dipindahkan.
-      </p>
+    <div className="flex min-h-[70vh] items-center justify-center">
+      <div className="text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-400">
+          <SearchX size={30} />
+        </div>
 
-      <Link
-        to="/"
-        className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-xl hover:bg-indigo-700 transition shadow-sm"
-      >
-        <Home className="w-4 h-4" />
-        Kembali ke Beranda
-      </Link>
+        <p className="mt-6 text-sm font-semibold text-violet-400">404</p>
+
+        <h1 className="mt-2 text-3xl font-bold">Page Not Found</h1>
+
+        <p className="mt-3 text-zinc-500">
+          Halaman yang kamu cari tidak tersedia.
+        </p>
+
+        <Link
+          to="/"
+          className="mt-7 inline-flex items-center gap-2 rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold"
+        >
+          <ArrowLeft size={17} />
+          Back to Home
+        </Link>
+      </div>
     </div>
   );
 }
+
+export default NotFound;
