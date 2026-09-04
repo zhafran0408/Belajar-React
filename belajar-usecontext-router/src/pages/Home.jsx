@@ -1,20 +1,26 @@
 /** @format */
 
-import Navbar from "../components/Navbar";
-import { ProfilProvider } from "../Test/ProfilContext";
+import { useState } from "react";
 import Profil from "./Profil";
 
 function Home() {
+  const [profil, setProfil] = useState({
+    nama: "Fulan",
+  });
+
   return (
     <>
-      <Navbar />
+      <h1>Home</h1>
 
-      <hr />
-      <h1>HOME</h1>
-      <p>Welcome to page home</p>
+      <input
+        type='text'
+        value={profil.nama}
+        onChange={(e) => setProfil({ ...profil, nama: e.target.value })}
+      />
 
-      <Profil/>
+      <Profil profil={profil} />
     </>
   );
 }
+
 export default Home;

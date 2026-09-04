@@ -1,16 +1,9 @@
-import { useContext } from "react";
-import { ProfilContext } from "../Test/ProfilContext";
-
-function ProfilDetail() {
-  const { profil } = useContext(ProfilContext);
-
+function ProfilDetail({ profil }) {
   return (
     <>
-      <h1>Name user : {profil.nama}</h1>
+      <h1>Profile Detail</h1>
 
-      <div>
-        Ini adalah Profile
-      </div>
+      <p>Name user: {profil.nama}</p>
     </>
   );
 }
