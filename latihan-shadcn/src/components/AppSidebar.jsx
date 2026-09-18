@@ -1,13 +1,18 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
 import {
-  LayoutDashboard,
-  Users,
-  Info,
+  Activity,
+  FilePenLine,
   GraduationCap,
-  PanelLeftClose,
-  PanelLeftOpen,
+  HeartPulse,
+  Home,
+  Info,
+  LogIn,
+  LogOut,
+  ShieldCheck,
+  UserPlus,
+  Users,
 } from "lucide-react";
+
+import { NavLink, useNavigate } from "react-router-dom";
 
 import {
   Sidebar,
@@ -15,104 +20,370 @@ import {
   SidebarFooter,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuItem,
   SidebarMenuButton,
-  useSidebar,
+  SidebarMenuItem,
+  SidebarSeparator,
 } from "@/components/ui/sidebar";
 
-export function AppSidebar() {
-  const { state, toggleSidebar } = useSidebar();
-  const isCollapsed = state === "collapsed";
+import {
+  getCurrentRole,
+  getCurrentUser,
+  logout,
+} from "@/lib/auth";
 
-  const navigationItems = [
-    {
-      title: "Dashboard",
-      url: "/",
-      icon: LayoutDashboard,
-    },
-    {
-      title: "Data Santri",
-      url: "/santri",
-      icon: Users,
-    },
-    {
-      title: "About",
-      url: "/about",
-      icon: Info,
-    },
-  ];
+const mainMenu = [
+  {
+    to: "/",
+    label: "Home",
+    icon: Home,
+    end: true,
+  },
+  {
+    to: "/kesehatan",
+    label: "Kesehatan",
+    icon: HeartPulse,
+  },
+  {
+    to: "/about",
+    label: "About",
+    icon: Info,
+  },
+];
+
+function AppSidebar() {
+  const navigate = useNavigate();
+
+  const user = getCurrentUser();
+  const role = getCurrentRole();
+
+  const isAdmin = role === "admin";
+  const isGuest = role === "guest";
+
+  function handleLogout() {
+    logout();
+
+    navigate("/");
+
+    window.location.reload();
+  }
+
+  const navLinkClass = ({ isActive }) =>
+    `
+      group
+      flex
+      w-full
+      items-center
+      rounded-lg
+      transition-all
+      duration-200
+      ${
+        isActive
+          ? "bg-sidebar-accent text-sidebar-accent-foreground shadow-sm"
+          : "text-sidebar-foreground/70 hover:bg-sidebar-accent/70 hover:text-sidebar-foreground"
+      }
+    `;
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-slate-200/80 bg-white dark:border-slate-800 dark:bg-slate-950 transition-all duration-300 ease-out">
-      {/* Sidebar Header: Logo & Branding */}
-      <SidebarHeader className="p-4 border-b border-slate-100 dark:border-slate-800/60">
-        <div className="flex items-center gap-3 overflow-hidden">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-slate-50 dark:text-slate-900 shadow-sm transition-transform duration-300">
-            <GraduationCap className="h-5 w-5" />
+    <Sidebar>
+
+      {/* ==========================================
+          HEADER
+      ========================================== */}
+
+      <SidebarHeader className="p-3">
+
+        <div className="flex items-center gap-3 rounded-xl border bg-sidebar-accent/40 p-3">
+
+          <div
+            className="
+              flex
+              size-9
+              shrink-0
+              items-center
+              justify-center
+              rounded-xl
+              bg-primary
+              text-primary-foreground
+            "
+          >
+            <GraduationCap size={18} />
           </div>
-          {!isCollapsed && (
-            <div className="flex flex-col min-w-0 transition-opacity duration-200 ease-out">
-              <span className="font-semibold text-slate-900 dark:text-slate-100 text-sm tracking-tight truncate">
-                SantriHub
-              </span>
-              <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
-                Management System
-              </span>
-            </div>
-          )}
+
+          <div className="min-w-0">
+            <p className="truncate text-sm font-bold">
+              SantriApp
+            </p>
+
+            <p className="truncate text-[10px] text-sidebar-foreground/50">
+              School Management
+            </p>
+          </div>
+
         </div>
+
       </SidebarHeader>
 
-      {/* Sidebar Menu */}
-      <SidebarContent className="p-3">
-        <div className="mb-2 px-2">
-          {!isCollapsed && (
-            <span className="text-[10px] font-semibold tracking-wider text-slate-400 uppercase">
-              Menu
-            </span>
-          )}
+      {/* ==========================================
+          CONTENT
+      ========================================== */}
+
+      <SidebarContent className="px-2">
+
+        {/* MAIN */}
+
+        <div className="mb-2 px-2 pt-2">
+          <p
+            className="
+              text-[9px]
+              font-bold
+              uppercase
+              tracking-[0.15em]
+              text-sidebar-foreground/40
+            "
+          >
+            Menu utama
+          </p>
         </div>
-        <SidebarMenu className="space-y-1">
-          {navigationItems.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild tooltip={isCollapsed ? item.title : undefined}>
+
+        <SidebarMenu>
+
+          {mainMenu.map((item) => {
+            const Icon = item.icon;
+
+            return (
+              <SidebarMenuItem key={item.to}>
                 <NavLink
-                  to={item.url}
-                  end={item.url === "/"}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium transition-all duration-200 ${
-                      isActive
-                        ? "bg-slate-900 text-white shadow-sm dark:bg-slate-100 dark:text-slate-900"
-                        : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800/60"
-                    }`
-                  }
+                  to={item.to}
+                  end={item.end}
+                  className={navLinkClass}
                 >
-                  <item.icon className="h-4 w-4 shrink-0" />
-                  {!isCollapsed && <span className="truncate">{item.title}</span>}
+                  {({ isActive }) => (
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      className="h-10"
+                      tooltip={item.label}
+                    >
+                      <Icon size={17} />
+
+                      <span>{item.label}</span>
+                    </SidebarMenuButton>
+                  )}
                 </NavLink>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+              </SidebarMenuItem>
+            );
+          })}
+
         </SidebarMenu>
+
+        {/* ========================================
+            ADMIN
+        ======================================== */}
+
+        {isAdmin && (
+          <>
+            <SidebarSeparator className="my-4" />
+
+            <div className="mb-2 px-2">
+              <p
+                className="
+                  text-[9px]
+                  font-bold
+                  uppercase
+                  tracking-[0.15em]
+                  text-sidebar-foreground/40
+                "
+              >
+                Administrasi
+              </p>
+            </div>
+
+            <SidebarMenu>
+
+              <SidebarMenuItem>
+                <NavLink
+                  to="/admin"
+                  className={navLinkClass}
+                >
+                  {({ isActive }) => (
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      className="h-10"
+                      tooltip="Admin"
+                    >
+                      <ShieldCheck size={17} />
+
+                      <span>Kelola Data</span>
+                    </SidebarMenuButton>
+                  )}
+                </NavLink>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <NavLink
+                  to="/admin/edit"
+                  className={navLinkClass}
+                >
+                  {({ isActive }) => (
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      className="h-10"
+                      tooltip="Edit Data"
+                    >
+                      <FilePenLine size={17} />
+
+                      <span>Edit Data</span>
+                    </SidebarMenuButton>
+                  )}
+                </NavLink>
+              </SidebarMenuItem>
+
+              <SidebarMenuItem>
+                <NavLink
+                  to="/admin/absensi"
+                  className={navLinkClass}
+                >
+                  {({ isActive }) => (
+                    <SidebarMenuButton
+                      isActive={isActive}
+                      className="h-10"
+                      tooltip="Absensi"
+                    >
+                      <Activity size={17} />
+
+                      <span>Kelola Absensi</span>
+                    </SidebarMenuButton>
+                  )}
+                </NavLink>
+              </SidebarMenuItem>
+
+            </SidebarMenu>
+          </>
+        )}
+
       </SidebarContent>
 
-      {/* Sidebar Footer: Collapse Toggle Button inside Sidebar */}
-      <SidebarFooter className="p-3 border-t border-slate-100 dark:border-slate-800/60">
-        <button
-          onClick={toggleSidebar}
-          className="flex w-full items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-slate-100 dark:hover:bg-slate-800/60 transition-all duration-200"
-          title={isCollapsed ? "Buka Sidebar" : "Tutup Sidebar"}
-        >
-          {isCollapsed ? (
-            <PanelLeftOpen className="h-4 w-4 shrink-0 mx-auto" />
-          ) : (
-            <>
-              <PanelLeftClose className="h-4 w-4 shrink-0" />
-              <span className="truncate">Tutup Sidebar</span>
-            </>
-          )}
-        </button>
+      {/* ==========================================
+          FOOTER
+      ========================================== */}
+
+      <SidebarFooter className="p-2">
+
+        {isGuest ? (
+          <>
+            <SidebarSeparator className="mb-3" />
+
+            <SidebarMenu>
+
+              {/* LOGIN */}
+
+              <SidebarMenuItem>
+                <NavLink
+                  to="/login"
+                  className={navLinkClass}
+                >
+                  <SidebarMenuButton
+                    tooltip="Login"
+                    className="h-10"
+                  >
+                    <LogIn size={17} />
+
+                    <span>Masuk</span>
+                  </SidebarMenuButton>
+                </NavLink>
+              </SidebarMenuItem>
+
+              {/* SIGNUP */}
+
+              <SidebarMenuItem>
+                <NavLink
+                  to="/signup"
+                  className={navLinkClass}
+                >
+                  <SidebarMenuButton
+                    tooltip="Daftar"
+                    className="h-10"
+                  >
+                    <UserPlus size={17} />
+
+                    <span>Daftar Akun</span>
+                  </SidebarMenuButton>
+                </NavLink>
+              </SidebarMenuItem>
+
+            </SidebarMenu>
+          </>
+        ) : (
+          <>
+            <SidebarSeparator className="mb-3" />
+
+            <div className="mb-2 flex items-center gap-2 px-2">
+
+              <div
+                className="
+                  flex
+                  size-8
+                  items-center
+                  justify-center
+                  rounded-full
+                  bg-primary/10
+                  text-primary
+                "
+              >
+                {role === "admin" ? (
+                  <ShieldCheck size={15} />
+                ) : (
+                  <Users size={15} />
+                )}
+              </div>
+
+              <div className="min-w-0">
+                <p className="truncate text-[11px] font-semibold">
+                  {user?.nama}
+                </p>
+
+                <p className="truncate text-[9px] text-sidebar-foreground/50">
+                  {role === "admin"
+                    ? "Administrator"
+                    : role === "wali"
+                      ? "Wali Santri"
+                      : "Siswa"}
+                </p>
+              </div>
+
+            </div>
+
+            {/* LOGOUT */}
+
+            <SidebarMenu>
+              <SidebarMenuItem>
+
+                <SidebarMenuButton
+                  onClick={handleLogout}
+                  tooltip="Logout"
+                  className="
+                    h-10
+                    text-destructive
+                    hover:bg-destructive/10
+                    hover:text-destructive
+                  "
+                >
+                  <LogOut size={17} />
+
+                  <span>Logout</span>
+                </SidebarMenuButton>
+
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </>
+        )}
+
+        <p className="mt-3 text-center text-[9px] text-sidebar-foreground/30">
+          © {new Date().getFullYear()} SantriApp
+        </p>
+
       </SidebarFooter>
     </Sidebar>
   );
 }
+
+export default AppSidebar;

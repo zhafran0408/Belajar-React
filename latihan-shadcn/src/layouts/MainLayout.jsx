@@ -1,22 +1,33 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
 
-import Navbar  from "@/components/Navbar";
+import {
+  SidebarInset,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 
-export function MainLayout() {
+import AppSidebar from "@/components/AppSidebar";
+import Navbar from "@/components/Navbar";
+
+function MainLayout() {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-slate-50/50 dark:bg-slate-950">
-        <AppSidebar />
-        <SidebarInset className="flex flex-col flex-1 min-w-0">
-          <Navbar />
-          <main className="flex-1 p-6 md:p-8 max-w-7xl w-full mx-auto overflow-x-hidden">
+
+      <AppSidebar />
+
+      <SidebarInset>
+
+        <Navbar />
+
+        <main className="min-h-[calc(100vh-4rem)] bg-muted/20 p-4 sm:p-6">
+          <div className="mx-auto w-full max-w-7xl">
             <Outlet />
-          </main>
-        </SidebarInset>
-      </div>
+          </div>
+        </main>
+
+      </SidebarInset>
+
     </SidebarProvider>
   );
 }
+
+export default MainLayout;

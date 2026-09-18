@@ -1,22 +1,74 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  GraduationCap,
+  HeartPulse,
+  ShieldCheck,
+} from "lucide-react";
 
-export function About() {
+function About() {
   return (
-    <div className="max-w-2xl space-y-4">
-      <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
-        Tentang SantriHub
-      </h1>
-      <Card className="rounded-2xl border-slate-200/80 dark:border-slate-800 shadow-sm">
-        <CardContent className="p-6 space-y-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-          <p>
-            <strong>SantriHub</strong> adalah Web Management System modern yang dirancang untuk membantu pengelolaan akademik, absensi, serta capaian hafalan santri di pesantren.
+    <div className="mx-auto max-w-4xl space-y-6">
+
+      <div>
+        <p className="text-xs font-semibold text-primary">
+          TENTANG APLIKASI
+        </p>
+
+        <h1 className="mt-2 text-3xl font-bold">
+          SantriApp
+        </h1>
+
+        <p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">
+          Sistem sederhana untuk membantu
+          pengelolaan informasi santri di lingkungan
+          sekolah atau pesantren.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+
+        <div className="rounded-2xl border bg-background p-5">
+          <GraduationCap className="mb-4 text-primary" />
+
+          <h2 className="text-sm font-bold">
+            Santri
+          </h2>
+
+          <p className="mt-2 text-xs leading-5 text-muted-foreground">
+            Informasi santri dapat dipantau dengan
+            lebih terstruktur.
           </p>
-          <p>
-            Dibangun dengan stack teknologi terkini seperti React, Vite, Tailwind CSS, dan shadcn/ui untuk memberikan pengalaman pengelolaan data yang cepat, fleksibel, dan estetis.
+        </div>
+
+        <div className="rounded-2xl border bg-background p-5">
+          <HeartPulse className="mb-4 text-primary" />
+
+          <h2 className="text-sm font-bold">
+            Kesehatan
+          </h2>
+
+          <p className="mt-2 text-xs leading-5 text-muted-foreground">
+            Data kesehatan dapat dicatat dan
+            dipantau oleh pihak yang berwenang.
           </p>
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="rounded-2xl border bg-background p-5">
+          <ShieldCheck className="mb-4 text-primary" />
+
+          <h2 className="text-sm font-bold">
+            Hak Akses
+          </h2>
+
+          <p className="mt-2 text-xs leading-5 text-muted-foreground">
+            Admin memiliki akses pengelolaan,
+            sementara pengguna lain hanya melihat.
+          </p>
+        </div>
+
+      </div>
+
     </div>
   );
 }
+
+export default About;

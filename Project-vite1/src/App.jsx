@@ -1,4 +1,3 @@
-
 /** @format */
 
 import { useState } from "react";
@@ -22,6 +21,11 @@ import RadixTest from "./headless_ui_component.md/Radixtest";
 import SimpleCounter from "./UseEffect/SimpleCounter";
 
 import AppReducer from "./UseReducer/AppReducer";
+
+// Zustand
+import Dashboard from "./Zustand/Dashboard";
+import DashboardAdmin from "./Zustand/DashboardAdmin";
+import DashboardGuest from "./Zustand/DashboardGuest";
 
 // =========================
 // DAFTAR HALAMAN
@@ -71,6 +75,25 @@ const PAGES = {
   useReducer: {
     label: "useReducer",
     component: () => <AppReducer />,
+  },
+
+  // =========================
+  // ZUSTAND
+  // =========================
+
+  zustand: {
+    label: "Zustand",
+    component: () => <Dashboard />,
+  },
+
+  zustandAdmin: {
+    label: "Zustand Admin",
+    component: () => <DashboardAdmin />,
+  },
+
+  zustandGuest: {
+    label: "Zustand Guest",
+    component: () => <DashboardGuest />,
   },
 };
 
