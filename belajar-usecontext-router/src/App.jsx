@@ -1,36 +1,39 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router";
 
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import Profil from "./pages/Profil";
-import ProfilDetail from "./pages/ProfilDetail";
-
-import { ProfilContext } from "./pages/ProfilContext";
+import About from "./pages/About";
+import Testimoni from "./pages/Testimoni";
+import FAQ from "./pages/FAQ";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/profil",
-    element: <Profil />,
-  },
-  {
-    path: "/profil/detail",
-    element: <ProfilDetail />,
+    element: <Navbar />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "testimoni",
+        element: <Testimoni />,
+      },
+      {
+        path: "faq",
+        element: <FAQ />,
+      },
+    ],
   },
 ]);
 
 function App() {
-  const profil = {
-    nama: "Fulan",
-  };
-
-  return (
-    <ProfilContext.Provider value={{ profil }}>
-      <RouterProvider router={router} />
-    </ProfilContext.Provider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

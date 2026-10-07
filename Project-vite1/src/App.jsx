@@ -22,9 +22,14 @@ import SimpleCounter from "./UseEffect/SimpleCounter";
 
 import AppReducer from "./UseReducer/AppReducer";
 
+// React Hook Form
+import BasicForm from "./ReactHookForm/BasicFrom";
+
 // Zustand
 import Dashboard from "./Zustand/Dashboard";
+
 import DashboardAdmin from "./Zustand/DashboardAdmin";
+
 import DashboardGuest from "./Zustand/DashboardGuest";
 
 // =========================
@@ -75,6 +80,15 @@ const PAGES = {
   useReducer: {
     label: "useReducer",
     component: () => <AppReducer />,
+  },
+
+  // =========================
+  // REACT HOOK FORM
+  // =========================
+
+  reactHookForm: {
+    label: "React Hook Form",
+    component: () => <BasicForm />,
   },
 
   // =========================
@@ -152,9 +166,7 @@ export default function App() {
         Kembali ke Home
       </Button>
 
-      <div>
-        {currentPage.component()}
-      </div>
+      <div>{currentPage.component()}</div>
     </div>
   );
 }
